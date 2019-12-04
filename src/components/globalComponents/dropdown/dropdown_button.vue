@@ -27,9 +27,9 @@ export default {
         "el-dialog",
         {
           attrs: {
-            width: "80%",
             title: "字段配置",
-            visible: this.dialogVisible
+            visible: this.dialogVisible,
+            fullscreen: true
           },
           on: {
             "update:visible": () => {

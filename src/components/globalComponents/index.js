@@ -2,7 +2,7 @@ import Vue from "vue";
 function registerAllComponents(requireContext) {
   requireContext.keys().forEach(comp => {
     const vueComp = requireContext(comp);
-    console.log(vueComp.default);
+    // console.log(vueComp.default);
     const compName = vueComp.default.name
       ? vueComp.default.name
       : /\/([\w-]+)\.vue$/.exec(comp)[1];
