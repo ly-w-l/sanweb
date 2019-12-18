@@ -1,63 +1,79 @@
+<template>
+  <el-table
+    :data="data"
+    border
+    @cell-click="cellclick"
+    :show-summary="IsSummary"
+    height="500px"
+    highlight-current-row
+    @current-change="currentChange"
+  >
+    <el-table-column
+      v-for="item in columns"
+      :key="item.label"
+      :label="item.label"
+      :prop="item.prop"
+      :width="item.width"
+    >
+      <template slot-scope="scope">
+        <gl-form
+          v-if="item.innerInput"
+          v-show="scope.row === currentRow && scope.column === currentColumn"
+          :content="item.innerInput"
+          :disabled="item.disabled"
+          :inputValue="
+            scope.row === currentRow && scope.column === currentColumn
+          "
+          @update:inputValue="
+            r => {
+              scope.row[item.prop] = r[item.prop];
+            }
+          "
+        ></gl-form>
+        <span
+          v-show="!(scope.row === currentRow && scope.column === currentColumn)"
+          >{{ scope.row[item.prop] }}</span
+        >
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
 <script>
-//传入的options模型 第一条数据是table的配置
-// const module =  options: [
-//   { border: true, height: "500px" },//table设置
-//   { prop: "date", label: "日期" },//column设置
-//   [
-//     "配送信息",
-//     { label: "姓名", prop: "name" },
-//     [
-//       "地址",
-//       { label: "省份", prop: "province" },
-//       { label: "城市", prop: "city" },
-//       { label: "地址", prop: "address" },
-//       { label: "邮编", prop: "zip" }
-//     ]
-//   ]
-// ]
-import { isObject } from "./form-render/utils";
 export default {
   name: "GlTable",
-  render(h) {
-    return h(
-      "el-table",
-      {
-        attrs: { ...this.options[0], data: this.data },
-        on: this.$listeners,
-        ref: "table"
-      },
-      this.tableColumnRender(h)
-    );
+  data() {
+    return {
+      currentRow: "",
+      currentColumn: ""
+    };
   },
-  props: {
-    options: {
-      type: Array,
-      required: true
-    },
-    data: Array
-  },
-  methods: {
-    //表格列渲染函数
-    tableColumnRender(h) {
-      let [talbleOptions, ...data] = this.options;
-      return this.handler(data, h);
-    },
-    handler(data, h) {
-      return data.map(el => {
-        if (Array.isArray(el)) {
-          return h(
-            "el-table-column",
-            { attrs: { label: el[0] } },
-            this.handler(el, h)
-          );
-        } else if (isObject(el)) {
-          return h("el-table-column", { attrs: { ...el } });
-        }
-      });
+  filters: {
+    capitalize: function(value, content) {
+      let [data] = value;
+      data.$default = content;
+      return [data];
     }
   },
-  mounted() {
-    console.log(this.options[0]);
+  props: {
+    data: Array,
+    columns: Array,
+    edit: { type: Boolean, default: false }
+  },
+  computed: {
+    IsSummary() {
+      return this.columns.some(el => el.IsSummary);
+    }
+  },
+  methods: {
+    cellclick(r, c) {
+      if (!this.edit) return;
+      this.currentRow = r;
+      this.currentColumn = c;
+      // console.log(r, c);
+    },
+    currentChange(newR, oldR) {
+      this.$emit("currentChang", newR);
+    }
   }
 };
 </script>

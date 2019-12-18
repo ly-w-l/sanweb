@@ -15,7 +15,6 @@
   display: none;
 }
 
-
 // to fixed https://github.com/ElemeFE/element/issues/2461
 .el-dialog {
   transform: none;
@@ -39,6 +38,15 @@
 // dropdown
 .el-dropdown-menu {
   a {
-    display: block
+    display: block;
   }
+}
+
+.el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+.el-table td,
+.el-table th {
+  padding: 0;
 }

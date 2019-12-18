@@ -83,12 +83,49 @@ export const constantRoutes = [
   {
     path: "/record",
     component: Layout,
+    meta: { title: "基础资料", icon: "form" },
     children: [
       {
         path: "index",
         name: "record",
         component: () => import("@/views/record/index"),
         meta: { title: "record", icon: "form" }
+      },
+      {
+        path: "customer",
+        name: "customer",
+        component: () => import("@/views/baseData/customer/query"),
+        meta: { title: "客户档案", icon: "form" }
+      },
+      {
+        path: "department",
+        name: "department",
+        component: () => import("@/views/baseData/department/query"),
+        meta: { title: "部门档案", icon: "form" }
+      },
+      {
+        path: "employee",
+        name: "employee",
+        component: () => import("@/views/baseData/employee/query"),
+        meta: { title: "职员档案", icon: "form" }
+      },
+      {
+        path: "material",
+        name: "material",
+        component: () => import("@/views/baseData/material/query"),
+        meta: { title: "物料档案", icon: "form" }
+      },
+      {
+        path: "supplier",
+        name: "supplier",
+        component: () => import("@/views/baseData/supplier/query"),
+        meta: { title: "供应商档案", icon: "form" }
+      },
+      {
+        path: "warehouse",
+        name: "warehouse",
+        component: () => import("@/views/baseData/warehouse/query"),
+        meta: { title: "仓库档案", icon: "form" }
       }
     ]
   },

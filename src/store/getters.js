@@ -5,6 +5,9 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   visitedViews: state => state.tagsView.visitedViews,
-  cachedViews: state => state.tagsView.cachedViews
+  cachedViews: state => state.tagsView.cachedViews,
+  pageSetting: state => name => {
+    return state.record.pageSetting.find(el => el.billName === name);
+  }
 };
 export default getters;

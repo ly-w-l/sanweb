@@ -1,10 +1,15 @@
 <template>
   <gl-bill-structure :BillType="type" style="color:red">
     <template v-slot:btn>
-      <gl-button :btnTexts="btnTexts" :needStatus="true"></gl-button>
+      <gl-button
+        :btnTexts="btnTexts"
+        :needStatus="true"
+        @btnAdd="add"
+        @btnSave="save"
+      ></gl-button>
     </template>
     <template v-slot:form>
-      <gl-form :content="content"></gl-form>
+      <gl-form :content="content" ref="glform"></gl-form>
     </template>
     <template v-slot:aside>
       <el-tree
@@ -120,7 +125,8 @@ export default {
           $id: "input1",
           label: "输入",
           $slot: "append",
-          $el: { size: "mini", resize: "both" }
+          $el: { size: "mini", resize: "both" },
+          $default: "333"
         },
         {
           $type: "date-picker",
@@ -134,7 +140,8 @@ export default {
           $id: "input415",
           label: "输入3",
           $attrs: { width: 100 },
-          $el: { size: "mini", resize: "both" }
+          $el: { size: "mini", resize: "both" },
+          $default: "322"
         },
         {
           $type: "input",
@@ -148,14 +155,16 @@ export default {
           $id: "input55",
           label: "输入2",
           $attrs: { width: 100 },
-          $el: { size: "mini", resize: "both" }
+          $el: { size: "mini", resize: "both" },
+          $default: "444"
         },
         {
           $type: "input",
           $id: "input55",
           label: "输入2",
           $attrs: { width: 100 },
-          $el: { size: "mini", resize: "both" }
+          $el: { size: "mini", resize: "both" },
+          $default: "555"
         },
         {
           $type: "input",
@@ -282,6 +291,14 @@ export default {
   methods: {
     handleNodeClick(data) {
       console.log(data);
+    },
+    add() {
+      let data = this.$refs.glform.getFormValue();
+      console.log(data);
+    },
+    save() {
+      console.log(222);
+      this.$refs.glform.updateValue({ id: "input1", value: "我是" });
     }
   }
 };

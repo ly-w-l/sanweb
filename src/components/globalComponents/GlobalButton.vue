@@ -67,8 +67,8 @@ export default {
           event: this.btnDeleteRow,
           isdisable: false
         }
-      ],
-      billStatus: process.env.VUE_APP_ADD
+      ]
+      // billStatus: process.env.VUE_APP_ADD
     };
   },
   render(h) {
@@ -95,11 +95,15 @@ export default {
     needStatus: {
       type: Boolean,
       default: false
-    }
+    },
+    billStatus: String
   },
   watch: {
     billStatus(newValue) {
-      this.btnStatusChange(newValue); //由于其他组件改变vuex中的billStatus 计算属性set不触发所以要监听
+      if (this.needStatus) {
+        this.btnStatusChange(newValue);
+        this.$emit("update:billStatus", newValue);
+      }
     }
   },
   methods: {
@@ -156,7 +160,7 @@ export default {
           attrs: {
             size: "mini",
             icon: el.icon,
-            disabled: this.needStatus ? el.isdisable : false
+            disabled: el.isdisable
           },
           on: { click: el.event },
           key: el.text
@@ -176,7 +180,7 @@ export default {
     },
     btnAdd() {
       if (this.btnEventHandler("btnAdd")) return;
-      console.log(1);
+
       this.billStatus = process.env.VUE_APP_ADD;
     },
     btnEdit() {

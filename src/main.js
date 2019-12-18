@@ -23,11 +23,8 @@ import "@/components/globalComponents/index"; // 自动注册全局组件
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
-import { mockXHR } from "../mock";
-if (process.env.NODE_ENV === "production") {
-  mockXHR();
-}
 
+console.log(process.env.NODE_ENV);
 // set ElementUI
 Vue.use(ElementUI);
 

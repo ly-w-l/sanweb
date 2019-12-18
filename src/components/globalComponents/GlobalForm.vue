@@ -10,20 +10,44 @@ export default {
     },
     disabled: {
       type: Boolean
-    }
+    },
+    inputValue: Boolean // 在表格中隐藏时把值赋给tabledata用
   },
   render(h) {
-    return h("elx-form-renderer", {
-      attrs: {
-        content: this.content,
-        disabled: this.disabled,
-        inline: true
+    return h(
+      "elx-form-renderer",
+      {
+        attrs: {
+          content: this.content,
+          disabled: this.disabled,
+          inline: true
+        },
+        ref: "ruleForm"
       },
-      ref: "ruleForm"
-    });
+      [h("slot")]
+    );
   },
   components: {
     ElxFormRenderer
+  },
+  methods: {
+    getFormValue() {
+      let data = this.$refs.ruleForm.getFormValue();
+      return data;
+    },
+    updateValue(data) {
+      this.$refs.ruleForm.updateValue(data);
+    }
+  },
+  watch: {
+    inputValue(newVal, oldVal) {
+      if (!newVal) {
+        this.$emit("update:inputValue", this.$refs.ruleForm.getFormValue());
+      }
+    }
+  },
+  mounted() {
+    // this.$on("getFormValue", this.getFormValue);
   }
 };
 </script>

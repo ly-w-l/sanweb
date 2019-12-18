@@ -1,8 +1,9 @@
 import request from "@/utils/request";
 
-export function getUiConfig() {
+export function getUiConfig(params) {
   return request({
-    url: "/uiConfig/getList",
-    method: "post"
+    url: "/UIConfig/GetList",
+    method: "get",
+    params
   });
 }

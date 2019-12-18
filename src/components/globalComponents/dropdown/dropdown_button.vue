@@ -29,7 +29,8 @@ export default {
           attrs: {
             title: "字段配置",
             visible: this.dialogVisible,
-            fullscreen: true
+            fullscreen: true,
+            "destroy-on-close": true
           },
           on: {
             "update:visible": () => {
