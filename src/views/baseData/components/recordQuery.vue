@@ -1,5 +1,5 @@
 <template>
-  <gl-bill-structure BillType="档案" style="color:red">
+  <gl-bill-structure BillType="档案">
     <template v-slot:btn>
       <gl-button
         :btnTexts="btnTexts"
@@ -34,94 +34,87 @@
       ></el-tree>
     </template>
     <template v-slot:table>
-      <gl-table
+      <el-table
         :data="tableData"
-        :columns="columns"
         v-loading="tableLoading"
-        @currentChang="currentChange"
-      ></gl-table>
+        height="500px"
+        border
+        useVirtual
+        highlight-current-row
+        @current-change="currentChange"
+      >
+        <el-table-column
+          v-for="item in columns"
+          :key="item.prop"
+          :label="item.label"
+          :prop="item.prop"
+          :width="item.width"
+        ></el-table-column>
+      </el-table>
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="1"
-        :page-sizes="[20, 50, 200, 500]"
+        :page-sizes="[20, 50, 500, 10000]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
       <el-dialog
         v-if="dialogVisible"
-        :title="billName"
+        :title="$attrs.billTitle"
         :visible.sync="dialogVisible"
         fullscreen
         :destroy-on-close="true"
       >
-        <record-add :pageSetting="pageSetting" :FItmeID="FItmeID"></record-add>
+        <recordAdd
+          :FItemID="FItemID"
+          :pageSetting="pageSetting"
+          :api="api"
+        ></recordAdd>
       </el-dialog>
     </template>
   </gl-bill-structure>
 </template>
 <script>
 import formRender from "@/components/globalComponents/form-render";
+import { recordApi, getTreeList } from "@/api/record/index.js";
 import recordAdd from "./recordAdd";
-import { getTreeList } from "@/api/record";
 import { getUiConfig } from "@/api/uiConfig";
 import { isObject } from "@/components/globalComponents/form-render/utils.js";
 export default {
   data() {
     return {
       dialogVisible: false,
+      btnLoading: false,
+      tableLoading: false,
       btnTexts: ["新增", "编辑", "删除", "设置"],
-      // total: 81,
+      total: 0,
       pageSize: 20,
       currentPage: 1,
       treedata: [],
+      tableData: [],
       treedefaultProps: {
         children: "children",
         label: "FName"
       },
-      // tableData: [],
-      columns: [
-        {
-          prop: "date",
-          label: "日期",
-          innerInput: [{ $type: "input", $id: "date" }],
-          disabled: false
-        },
-        {
-          prop: "name",
-          label: "姓名",
-          innerInput: [{ $type: "input", $id: "name" }],
-          disabled: false
-        },
-        {
-          prop: "address",
-          label: "地址",
-          innerInput: [{ $type: "input", $id: "address" }],
-          disabled: false
-        }
-      ],
+
+      columns: [],
       currentRow: "",
-      FItmeID: ""
+      FItemID: ""
     };
   },
   inject: ["billName"],
-  props: {
-    btnLoading: Boolean,
-    tableLoading: Boolean,
-    total: Number,
-    tableData: {
-      type: Array,
-      required: true
-    }
-  },
   computed: {
     pageSetting() {
       return this.$store.getters.pageSetting(this.billName);
+    },
+    api() {
+      let data = Object.entries(recordApi).filter(
+        el => el[0] === this.billName
+      );
+      return data[0][1];
     }
-    // tableData() {
-    //   return this.$store.getters.pageSetting(this.billName).tableData;
-    // }
   },
   components: {
     formRender,
@@ -130,13 +123,9 @@ export default {
   created() {
     this.columnsHandler();
     this.getTreeList();
+    console.log(this.$attrs);
   },
-  mounted() {
-    // console.log(this.$store.getters.pageSetting(this.billName));
-    // debugger;
-    // this.pageSetting.FID = 1;
-    // console.log(this.$store.getters.pageSetting(this.billName));
-  },
+
   methods: {
     //生成需要提交的conditions
     arrayHandler(formData, formOptions, Isalike = false) {
@@ -175,7 +164,8 @@ export default {
       }
     },
     query() {
-      this.$emit("update:btnLoading", true);
+      this.btnLoading = true;
+      // this.$emit("update:btnLoading", true);
       let formData = this.$refs.glform.getFormValue();
       let formOptions = this.pageSetting.formOptions;
       let _formData = this.reduction(formData);
@@ -241,15 +231,22 @@ export default {
         pageNumber: this.currentPage,
         conditions
       };
-      this.$emit("update:tableLoading", true);
-      this.$emit("query", commitData);
+      // this.$emit("update:tableLoading", true);
+      this.tableLoading = true;
+      this.api.GetPageList(commitData).then(res => {
+        this.total = res.data.total;
+        this.tableData = Object.freeze(res.data.rows);
+        this.btnLoading = false;
+        this.tableLoading = false;
+      });
+      // this.$emit("query", commitData);
     },
     currentChange(row) {
-      // console.log(row);
+      console.log(row);
       this.currentRow = row;
     },
     add() {
-      this.FItmeID = "";
+      this.FItemID = "";
       this.dialogVisible = true;
       // let data = this.$refs.glform.getFormValue();
       // console.log(data);
@@ -263,7 +260,7 @@ export default {
         return;
       }
       let { FItemID } = this.currentRow;
-      this.FItmeID = FItemID;
+      this.FItemID = FItemID;
       this.dialogVisible = true;
     },
     btnDelete() {
@@ -276,7 +273,30 @@ export default {
         return;
       }
       let { FItemID } = this.currentRow;
-      this.$emit("delete", FItemID);
+      this.$confirm("是否删除该条数据?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.api.Delete({ FItemID }).then(res => {
+            if (res.data) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              this.query();
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+
+      // this.$emit("delete", FItemID);
     }
   }
 };

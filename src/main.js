@@ -15,6 +15,7 @@ import "@/icons"; // icon
 import "@/permission"; // permission control
 
 import "@/components/globalComponents/index"; // 自动注册全局组件
+import "el-bigdata-table"; // 优化el-table显示大数据
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

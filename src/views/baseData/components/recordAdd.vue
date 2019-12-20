@@ -7,6 +7,7 @@
         :billStatus="billStatus"
         @btnAdd="add"
         @btnEdit="edit"
+        @btnSave="save"
       >
       </gl-button>
     </template>
@@ -23,8 +24,8 @@
 </template>
 <script>
 import formRender from "@/components/globalComponents/form-render";
+import { filterEmptyCommitData } from "@/utils";
 import { getUiConfig } from "@/api/uiConfig";
-import { getCustomer } from "@/api/record";
 export default {
   data() {
     return {
@@ -50,7 +51,8 @@ export default {
   },
   props: {
     pageSetting: Object,
-    FItmeID: String
+    FItemID: Number,
+    api: Object
   },
   created() {
     this.formHandler().then(res => {
@@ -60,8 +62,8 @@ export default {
   methods: {
     // 根据传入的FItemID请求数据
     comfirmStatus() {
-      if (this.FItmeID) {
-        getCustomer({ fItemId: this.FItmeID }).then(res => {
+      if (this.FItemID) {
+        this.api.Get({ fItemId: this.FItemID }).then(res => {
           console.log(res.data);
           Object.entries(res.data).forEach(el => {
             this.$refs.glform.updateValue({ id: el[0], value: el[1] });
@@ -86,7 +88,11 @@ export default {
             .map(el => {
               let formOptions = { $el: { size: "mini" } };
               formOptions.$id = el.FFieldName; // 字段
-              formOptions.label = el.FDisplayName; // 中文名
+              if (!el.IsVisible) {
+                formOptions.$el.type = "hidden";
+              } else {
+                formOptions.label = el.FDisplayName; // 中文名
+              } // 隐藏
               el.FDisplayType // 表单类型
                 ? (formOptions.$type = el.FDisplayType)
                 : (formOptions.$type = "input");
@@ -97,8 +103,35 @@ export default {
         });
       });
     },
-    add() {},
-    edit() {}
+    add() {
+      this.$refs.glform.resetFields();
+      this.billStatus = process.env.VUE_APP_ADD;
+    },
+    edit() {
+      // console.log(filterEmptyCommitData(this.$refs.glform.getFormValue()));
+      // console.log(this.$refs.glform.getFormValue());
+      this.billStatus = process.env.VUE_APP_EDIT;
+    },
+    save() {
+      this.$refs.glform.validate(valid => {
+        if (valid) {
+          let request;
+          this.billStatus === process.env.VUE_APP_ADD
+            ? (request = this.api.Add)
+            : (request = this.api.Update);
+          let commitData = filterEmptyCommitData(
+            this.$refs.glform.getFormValue()
+          );
+          request(commitData).then(res => {
+            if (res) {
+              this.comfirmStatus();
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    }
   }
 };
 </script>

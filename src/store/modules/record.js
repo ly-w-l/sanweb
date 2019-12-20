@@ -16,7 +16,7 @@
 const state = {
   pageSetting: [
     {
-      billName: "客户档案",
+      billName: "customer",
       FID: "T01",
       FItemClassID: 1,
       formOptions: [
@@ -52,7 +52,7 @@ const state = {
       body: [{ FTableName: "t_Organization" }]
     },
     {
-      billName: "部门档案",
+      billName: "department",
       FID: "T02",
       FItemClassID: 2,
       formOptions: [
@@ -88,7 +88,7 @@ const state = {
       body: [{ FTableName: "t_Department" }]
     },
     {
-      billName: "职员档案",
+      billName: "employee",
       FID: "T03",
       FItemClassID: 3,
       formOptions: [
@@ -124,7 +124,7 @@ const state = {
       body: [{ FTableName: "t_Emp" }]
     },
     {
-      billName: "供应商档案",
+      billName: "supplier",
       FID: "T08",
       FItemClassID: 8,
       formOptions: [
@@ -160,7 +160,7 @@ const state = {
       body: [{ FTableName: "t_Supplier" }]
     },
     {
-      billName: "物料档案",
+      billName: "material",
       FID: "T04",
       FItemClassID: 4,
       formOptions: [
@@ -196,7 +196,7 @@ const state = {
       body: [{ FTableName: "t_ICItem" }]
     },
     {
-      billName: "仓库档案",
+      billName: "warehouse",
       FID: "T05",
       FItemClassID: 5,
       formOptions: [

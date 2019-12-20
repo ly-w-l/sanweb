@@ -37,9 +37,17 @@ git push -u origin master
 
 按钮组件改变状态时会触发 render 函数
 
-# 用到的第三方插件
+# 用到的第三方组件
 
-在 element-ui 的基础上封装的表单插件 https://github.com/leezng/element-patch/blob/el-form-renderer/README.zh-CN.md https://leezng.github.io/element-patch/#/form-renderer (由于不满足本项目需求 下载源码放到 components/globalComponents/form-render 下对其略做修改)
+### el-form-renderer
+
+在 element-ui 的基础上封装的表单组件 https://github.com/leezng/element-patch/blob/el-form-renderer/README.zh-CN.md https://leezng.github.io/element-patch/#/ (由于不满足本项目需求 下载源码放到 components/globalComponents/form-render 下对其略做修改)
+
+### el-bigdata-table
+
+为解决 el-table 的大数据加载
+https://github.com/code-farmer-i/el-bigdata-table
+该依赖用了 es6 语法 需在 vue.config.js 中配置 transpileDependencies
 
 # 二次封装组件 数据模型
 

@@ -3485,6 +3485,11 @@ ejs@^2.6.1:
   resolved "https://registry.npm.taobao.org/ejs/download/ejs-2.6.2.tgz#3a32c63d1cd16d11266cd4703b14fec4e74ab4f6"
   integrity sha1-OjLGPRzRbREmbNRwOxT+xOdKtPY=
 
+el-bigdata-table@^1.0.32:
+  version "1.0.32"
+  resolved "https://registry.npm.taobao.org/el-bigdata-table/download/el-bigdata-table-1.0.32.tgz#f3d59e8eb66d7b43c6c5c13f6501e5fdafd6b65c"
+  integrity sha1-89WejrZte0PGxcE/ZQHl/a/Wtlw=
+
 electron-to-chromium@^1.3.164:
   version "1.3.170"
   resolved "https://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.170.tgz#2dc858f8a9bb51bbfe3a429312c11f565b456e61"

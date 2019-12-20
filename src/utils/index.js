@@ -131,3 +131,25 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, " ");
   }
 }
+
+/**
+ * 是否对象
+ */
+export const isObject = obj => {
+  return Object.prototype.toString.call(obj) === "[object Object]";
+};
+
+/**
+ * 过滤提交内容中为空字符串的
+ * @param {Object} data
+ */
+export function filterEmptyCommitData(data) {
+  if (!isObject(data)) throw new error("提交内容必须是对象");
+  let newData = {};
+  Object.entries(data)
+    .filter(el => el[1] !== "" && el[1] !== null && el[1] !== undefined)
+    .forEach(el => {
+      newData[el[0]] = el[1];
+    });
+  return newData;
+}

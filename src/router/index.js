@@ -56,160 +56,50 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: "/form",
-    component: Layout,
-    children: [
-      {
-        path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index"),
-        meta: { title: "Form", icon: "form" }
-      }
-    ]
-  },
-  {
-    path: "/test",
-    component: Layout,
-    children: [
-      {
-        path: "index",
-        name: "test",
-        component: () => import("@/views/financial/index"),
-        meta: { title: "test", icon: "form" }
-      }
-    ]
-  },
+
   {
     path: "/record",
     component: Layout,
     meta: { title: "基础资料", icon: "form" },
     children: [
       {
-        path: "index",
-        name: "record",
-        component: () => import("@/views/record/index"),
-        meta: { title: "record", icon: "form" }
-      },
-      {
         path: "customer",
         name: "customer",
-        component: () => import("@/views/baseData/customer/query"),
+        component: () => import("@/views/baseData/customer.vue"),
         meta: { title: "客户档案", icon: "form" }
       },
       {
         path: "department",
         name: "department",
-        component: () => import("@/views/baseData/department/query"),
+        component: () => import("@/views/baseData/department.vue"),
         meta: { title: "部门档案", icon: "form" }
       },
       {
         path: "employee",
         name: "employee",
-        component: () => import("@/views/baseData/employee/query"),
+        component: () => import("@/views/baseData/employee.vue"),
         meta: { title: "职员档案", icon: "form" }
       },
       {
         path: "material",
         name: "material",
-        component: () => import("@/views/baseData/material/query"),
+        component: () => import("@/views/baseData/material.vue"),
         meta: { title: "物料档案", icon: "form" }
       },
       {
         path: "supplier",
         name: "supplier",
-        component: () => import("@/views/baseData/supplier/query"),
+        component: () => import("@/views/baseData/supplier.vue"),
         meta: { title: "供应商档案", icon: "form" }
       },
       {
         path: "warehouse",
         name: "warehouse",
-        component: () => import("@/views/baseData/warehouse/query"),
+        component: () => import("@/views/baseData/warehouse.vue"),
         meta: { title: "仓库档案", icon: "form" }
       }
     ]
   },
-  {
-    path: "/nested",
-    component: Layout,
-    redirect: "/nested/menu1",
-    name: "Nested",
-    meta: {
-      title: "Nested",
-      icon: "nested"
-    },
-    children: [
-      {
-        path: "menu1",
-        component: () => import("@/views/nested/menu1/index"), // Parent router-view
-        name: "Menu1",
-        meta: { title: "Menu1", roles: ["editor"] },
-        children: [
-          {
-            path: "menu1-1",
-            component: () => import("@/views/nested/menu1/menu1-1"),
-            name: "Menu1-1",
-            meta: { title: "Menu1-1" }
-          },
-          {
-            path: "menu1-2",
-            component: () => import("@/views/nested/menu1/menu1-2"),
-            name: "Menu1-2",
-            meta: { title: "Menu1-2" },
-            children: [
-              {
-                path: "menu1-2-1",
-                component: () =>
-                  import("@/views/nested/menu1/menu1-2/menu1-2-1"),
-                name: "Menu1-2-1",
-                meta: { title: "Menu1-2-1" }
-              },
-              {
-                path: "menu1-2-2",
-                component: () =>
-                  import("@/views/nested/menu1/menu1-2/menu1-2-2"),
-                name: "Menu1-2-2",
-                meta: { title: "Menu1-2-2" }
-              }
-            ]
-          },
-          {
-            path: "menu1-3",
-            component: () => import("@/views/nested/menu1/menu1-3"),
-            name: "Menu1-3",
-            meta: { title: "Menu1-3" }
-          }
-        ]
-      },
-      {
-        path: "menu2",
-        component: () => import("@/views/nested/menu2/index"),
-        meta: { title: "menu2" }
-      }
-    ]
-  },
-  {
-    path: "/example",
-    component: Layout,
-    redirect: "/example/table",
-    name: "Example",
-    meta: { title: "Example", icon: "example" },
-    children: [
-      {
-        path: "table",
-        name: "Table",
-        component: () => import("@/views/table/index"),
-        meta: { title: "Table", icon: "table" }
-      },
-      {
-        path: "tree",
-        name: "Tree",
-        component: () => import("@/views/tree/index"),
-        meta: { title: "Tree", icon: "tree" }
-      }
-    ]
-  },
-
   {
     path: "external-link",
     component: Layout,
