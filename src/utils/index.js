@@ -153,3 +153,46 @@ export function filterEmptyCommitData(data) {
     });
   return newData;
 }
+
+/**
+ *根据配置生成表单
+ * @param {Array} data
+ * @returns {Array} 表单配置
+ */
+export function createFormOptions(data) {
+  return data
+    .filter(el => el.IsEnabled) // 过滤未创建
+    .sort((a, b) => a.FOrderNo - b.FOrderNo) // 排序
+    .map(el => {
+      let formOptions = { $el: { size: "mini" } };
+      formOptions.$id = el.FFieldName; // 字段
+      if (!el.IsVisible) {
+        formOptions.$el.type = "hidden";
+      } else {
+        formOptions.label = el.FDisplayName; // 中文名
+      } // 隐藏
+      el.FDisplayType // 表单类型
+        ? (formOptions.$type = el.FDisplayType)
+        : (formOptions.$type = "input");
+      return formOptions;
+    });
+}
+
+/**
+ * 根据配置生成表格列头
+ * @param {Array} data
+ * @returns {Array} 列头配置
+ */
+export function createColumnsOptions(data) {
+  return data
+    .filter(el => el.IsEnabled) //过滤未创建
+    .sort((a, b) => a.FOrderNo - b.FOrderNo) //排序
+    .map(el => {
+      let columns = {};
+      columns.prop = el.FFieldName; //字段
+      columns.label = el.FDisplayName; //中文名
+      columns.IsSummary = el.IsSummary; //合计
+      columns.width = el.FFieldWidth; //列宽
+      return columns;
+    });
+}

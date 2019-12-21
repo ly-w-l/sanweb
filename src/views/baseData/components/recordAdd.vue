@@ -24,7 +24,7 @@
 </template>
 <script>
 import formRender from "@/components/globalComponents/form-render";
-import { filterEmptyCommitData } from "@/utils";
+import { filterEmptyCommitData, createFormOptions } from "@/utils";
 import { getUiConfig } from "@/api/uiConfig";
 export default {
   data() {
@@ -64,7 +64,7 @@ export default {
     comfirmStatus() {
       if (this.FItemID) {
         this.api.Get({ fItemId: this.FItemID }).then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           Object.entries(res.data).forEach(el => {
             this.$refs.glform.updateValue({ id: el[0], value: el[1] });
           });
@@ -81,24 +81,7 @@ export default {
           FID: this.pageSetting.FID,
           fTableName: this.pageSetting.body[0].FTableName
         }).then(res => {
-          // console.log(res.data);
-          let data = res.data
-            .filter(el => el.IsEnabled) // 过滤未创建
-            .sort((a, b) => a.FOrderNo - b.FOrderNo) // 排序
-            .map(el => {
-              let formOptions = { $el: { size: "mini" } };
-              formOptions.$id = el.FFieldName; // 字段
-              if (!el.IsVisible) {
-                formOptions.$el.type = "hidden";
-              } else {
-                formOptions.label = el.FDisplayName; // 中文名
-              } // 隐藏
-              el.FDisplayType // 表单类型
-                ? (formOptions.$type = el.FDisplayType)
-                : (formOptions.$type = "input");
-              return formOptions;
-            });
-          this.content = data;
+          this.content = createFormOptions(res.data);
           resolve();
         });
       });

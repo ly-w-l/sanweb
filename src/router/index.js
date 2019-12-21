@@ -101,6 +101,60 @@ export const constantRoutes = [
     ]
   },
   {
+    path: "/procurement",
+    component: Layout,
+    meta: { title: "采购管理", icon: "form" },
+    children: [
+      {
+        path: "bills",
+        name: "bills",
+        component: () => import("@/views/procurement/bills/index.vue"),
+        meta: { title: "采购业务", icon: "form" },
+        children: [
+          {
+            path: "procurementRequest",
+            name: "procurementRequest",
+            component: () =>
+              import("@/views/procurement/bills/procurement-request/index.vue"),
+            meta: { title: "采购申请", icon: "form" },
+            children: [
+              {
+                path: "procurementRequest-add",
+                name: "procurementRequest-add",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-request/add.vue"
+                  ),
+                meta: { title: "采购申请-新增", icon: "form" }
+              },
+              {
+                path: "procurementRequest-query",
+                name: "procurementRequest-query",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-request/query.vue"
+                  ),
+                meta: { title: "采购申请-查询", icon: "form" }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: "price",
+        name: "price",
+        component: () => import("@/views/procurement/price/index.vue"),
+        meta: { title: "价格政策", icon: "form" }
+      },
+      {
+        path: "report",
+        name: "report",
+        component: () => import("@/views/procurement/report/index.vue"),
+        meta: { title: "采购报表", icon: "form" }
+      }
+    ]
+  },
+  {
     path: "external-link",
     component: Layout,
     children: [

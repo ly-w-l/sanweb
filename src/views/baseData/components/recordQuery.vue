@@ -81,7 +81,8 @@ import formRender from "@/components/globalComponents/form-render";
 import { recordApi, getTreeList } from "@/api/record/index.js";
 import recordAdd from "./recordAdd";
 import { getUiConfig } from "@/api/uiConfig";
-import { isObject } from "@/components/globalComponents/form-render/utils.js";
+// import { isObject } from "@/components/globalComponents/form-render/utils.js";
+import { isObject, createColumnsOptions } from "@/utils";
 export default {
   data() {
     return {
@@ -182,19 +183,7 @@ export default {
         FID: this.pageSetting.FID,
         fTableName: this.pageSetting.body[0].FTableName
       }).then(res => {
-        // console.log(res.data);
-        let data = res.data
-          .filter(el => el.IsEnabled) //过滤未创建
-          .sort((a, b) => a.FOrderNo - b.FOrderNo) //排序
-          .map(el => {
-            let columns = {};
-            columns.prop = el.FFieldName; //字段
-            columns.label = el.FDisplayName; //中文名
-            columns.IsSummary = el.IsSummary; //合计
-            columns.width = el.FFieldWidth; //列宽
-            return columns;
-          });
-        this.columns = data;
+        this.columns = createColumnsOptions(res.data);
       });
     },
     //获取左侧树
