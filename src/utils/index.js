@@ -183,16 +183,26 @@ export function createFormOptions(data) {
  * @param {Array} data
  * @returns {Array} 列头配置
  */
-export function createColumnsOptions(data) {
+export function createColumnsOptions(data, needInnerInput) {
   return data
     .filter(el => el.IsEnabled) //过滤未创建
     .sort((a, b) => a.FOrderNo - b.FOrderNo) //排序
     .map(el => {
       let columns = {};
+      if (needInnerInput) {
+        let innerInput = [
+          {
+            $id: el.FFieldName, // 内置表单字段
+            $type: el.FDisplayType ? el.FDisplayType : "input" // 内置表单类型
+          }
+        ];
+        columns.innerInput = innerInput;
+      }
       columns.prop = el.FFieldName; //字段
       columns.label = el.FDisplayName; //中文名
       columns.IsSummary = el.IsSummary; //合计
       columns.width = el.FFieldWidth; //列宽
+
       return columns;
     });
 }

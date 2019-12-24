@@ -99,11 +99,14 @@ export default {
     billStatus: String
   },
   watch: {
-    billStatus(newValue) {
-      if (this.needStatus) {
-        this.btnStatusChange(newValue);
-        this.$emit("update:billStatus", newValue);
-      }
+    billStatus: {
+      handler(newValue) {
+        if (this.needStatus) {
+          this.btnStatusChange(newValue);
+          // this.$emit("update:billStatus", newValue);
+        }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -180,24 +183,23 @@ export default {
     },
     btnAdd() {
       if (this.btnEventHandler("btnAdd")) return;
-
-      this.billStatus = process.env.VUE_APP_ADD;
+      // this.billStatus = process.env.VUE_APP_ADD;
     },
     btnEdit() {
       if (this.btnEventHandler("btnEdit")) return;
-      this.billStatus = process.env.VUE_APP_EDIT;
+      // this.billStatus = process.env.VUE_APP_EDIT;
     },
     btnSave() {
       if (this.btnEventHandler("btnSave")) return;
-      this.billStatus = process.env.VUE_APP_BROWSE;
+      // this.billStatus = process.env.VUE_APP_BROWSE;
     },
     btnAudit() {
       if (this.btnEventHandler("btnAudit")) return;
-      this.billStatus = process.env.VUE_APP_CHECKED;
+      // this.billStatus = process.env.VUE_APP_CHECKED;
     },
     btnUnAudit() {
       if (this.btnEventHandler("btnUnAudit")) return;
-      this.billStatus = process.env.VUE_APP_BROWSE;
+      // this.billStatus = process.env.VUE_APP_BROWSE;
     },
     btnDelete() {
       if (this.btnEventHandler("btnDelete")) return;

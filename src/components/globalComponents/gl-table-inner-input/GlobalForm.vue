@@ -1,5 +1,5 @@
 <script>
-import ElxFormRenderer from "./form-render";
+import ElxFormRenderer from "../form-render";
 export default {
   name: "GlForm",
 
@@ -11,6 +11,7 @@ export default {
     disabled: {
       type: Boolean
     },
+    _default: [String, Number], // 默认值
     inputValue: Boolean // 在表格中隐藏时把值赋给tabledata用
   },
   render(h) {
@@ -18,7 +19,7 @@ export default {
       "elx-form-renderer",
       {
         attrs: {
-          content: this.content,
+          content: [{ ...this.content[0], $default: this._default }],
           disabled: this.disabled,
           inline: true
         },
@@ -47,6 +48,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this._default);
     // this.$on("getFormValue", this.getFormValue);
   }
 };

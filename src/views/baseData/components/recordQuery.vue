@@ -81,7 +81,6 @@ import formRender from "@/components/globalComponents/form-render";
 import { recordApi, getTreeList } from "@/api/record/index.js";
 import recordAdd from "./recordAdd";
 import { getUiConfig } from "@/api/uiConfig";
-// import { isObject } from "@/components/globalComponents/form-render/utils.js";
 import { isObject, createColumnsOptions } from "@/utils";
 export default {
   data() {
@@ -108,7 +107,7 @@ export default {
   inject: ["billName"],
   computed: {
     pageSetting() {
-      return this.$store.getters.pageSetting(this.billName);
+      return this.$store.getters.recordSetting(this.billName);
     },
     api() {
       let data = Object.entries(recordApi).filter(
@@ -124,7 +123,7 @@ export default {
   created() {
     this.columnsHandler();
     this.getTreeList();
-    console.log(this.$attrs);
+    // console.log(this.$attrs);
   },
 
   methods: {

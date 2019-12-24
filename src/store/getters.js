@@ -6,8 +6,11 @@ const getters = {
   name: state => state.user.name,
   visitedViews: state => state.tagsView.visitedViews,
   cachedViews: state => state.tagsView.cachedViews,
-  pageSetting: state => name => {
+  recordSetting: state => name => {
     return state.record.pageSetting.find(el => el.billName === name);
+  },
+  procurementSetting: state => name => {
+    return state.procurement.pageSetting.find(el => el.billName === name);
   }
 };
 export default getters;

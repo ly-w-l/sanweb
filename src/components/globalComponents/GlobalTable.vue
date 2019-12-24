@@ -17,10 +17,10 @@
     >
       <template slot-scope="scope">
         <gl-form
-          v-if="item.innerInput"
           v-show="scope.row === currentRow && scope.column === currentColumn"
           :content="item.innerInput"
           :disabled="item.disabled"
+          :_default="scope.row[item.prop]"
           :inputValue="
             scope.row === currentRow && scope.column === currentColumn
           "
@@ -39,6 +39,7 @@
   </el-table>
 </template>
 <script>
+import glForm from "./gl-table-inner-input/GlobalForm";
 export default {
   name: "GlTable",
   data() {
@@ -47,13 +48,16 @@ export default {
       currentColumn: ""
     };
   },
-  filters: {
-    capitalize: function(value, content) {
-      let [data] = value;
-      data.$default = content;
-      return [data];
-    }
+  components: {
+    glForm
   },
+  // filters: {
+  //   capitalize: function(value, content) {
+  //     let [data] = value;
+  //     data.$default = content;
+  //     return [data];
+  //   }
+  // },
   props: {
     data: Array,
     columns: Array,
@@ -71,8 +75,13 @@ export default {
       this.currentColumn = c;
       // console.log(r, c);
     },
+    // 暂时没用到
     currentChange(newR, oldR) {
       this.$emit("currentChang", newR);
+    },
+    endEdit() {
+      this.currentRow = "";
+      this.currentColumn = "";
     }
   }
 };
