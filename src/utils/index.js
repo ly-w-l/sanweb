@@ -206,3 +206,12 @@ export function createColumnsOptions(data, needInnerInput) {
       return columns;
     });
 }
+
+export function compare(obj1, obj2) {
+  let result = true;
+  let obj2Array = Object.entries(obj2);
+  Object.entries(obj1).forEach((el, index) => {
+    if (el[1] !== obj2Array[index][1]) result = false;
+  });
+  return result;
+}

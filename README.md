@@ -13,7 +13,7 @@ yarn build
 # 待优化问题
 
 因为基于 element-admin-template，所以有些冗余的东西还没去除
-每个.vue 文件中 options 的书写规范 1.按钮组件中按钮顺序的控制，按钮图标。 2.删行目前只能删最后一行。3.表格清空数据方法。4.编辑给子表传入增删改查字段
+每个.vue 文件中 options 的书写规范 1.按钮组件中按钮顺序的控制，按钮图标。 2.删行目前只能删最后一行。3.gl-table 组件清空数据方法。4.编辑给子表传入增删改查字段
 
 # vue 对象中各 options 以及生命周期的执行顺序猜想
 
@@ -34,7 +34,8 @@ git push -u origin master
 
 # 疑问
 
-按钮组件改变状态时会触发 render 函数,其实是 element-ui 组件样式改变都会触发 render
+1.按钮组件改变状态时会触发 render 函数,其实是 element-ui 组件样式改变都会触发 render
+2.vue 父组件传入 props 子组件赋值给 data 是深拷贝？还是 data 中的数据赋值都是深拷贝？
 
 # 用到的第三方组件
 

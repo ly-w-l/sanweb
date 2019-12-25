@@ -46,10 +46,6 @@ export default {
         this.$emit("update:inputValue", this.$refs.ruleForm.getFormValue());
       }
     }
-  },
-  mounted() {
-    console.log(this._default);
-    // this.$on("getFormValue", this.getFormValue);
   }
 };
 </script>

@@ -59,7 +59,7 @@ export default {
       btnTexts: ["新增", "编辑", "保存", "审核", "反审", "增行", "删行"],
       content: [],
       currentRow: "",
-      deleteRowStack: [],
+      // deleteRowStack: [],
       billStatus: process.env.VUE_APP_ADD
     };
   },
@@ -123,6 +123,10 @@ export default {
           this.billStatus = process.env.VUE_APP_BROWSE;
         });
       } else {
+        // 清空表体数据
+        this.pageSetting.add.body.forEach(el => {
+          el.tableData = [];
+        });
         this.billStatus = process.env.VUE_APP_ADD;
       }
     },
@@ -167,6 +171,9 @@ export default {
     save() {
       this.$refs.glform.validate(valid => {
         if (valid) {
+          this.$refs.gltable.forEach(el => {
+            el.endEdit();
+          });
           let request;
           this.billStatus === process.env.VUE_APP_ADD
             ? (request = this.api.Add)
@@ -180,6 +187,7 @@ export default {
               return [el.name, el.tableData];
             })
           );
+          // console.log(childDatas);
           request(Object.assign(commitData, childDatas)).then(res => {
             if (res) {
               this.comfirmStatus();
@@ -201,7 +209,7 @@ export default {
         )
       ) {
         let newRow = Object.fromEntries(tab.columns.map(el => [el.prop, ""]));
-        if (this.billStatus === process.env.VUE_APP_EDIT) newRow.EntryState = 1; // 给后台传增删改标识 1新增
+        // if (this.billStatus === process.env.VUE_APP_EDIT) newRow.EntryState = 1; // 给后台传增删改标识 1新增
         tab.tableData.push(newRow);
       }
     },

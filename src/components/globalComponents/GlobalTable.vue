@@ -40,24 +40,20 @@
 </template>
 <script>
 import glForm from "./gl-table-inner-input/GlobalForm";
+import { compare } from "@/utils";
 export default {
   name: "GlTable",
   data() {
     return {
       currentRow: "",
-      currentColumn: ""
+      currentColumn: "",
+      tableDataclone: JSON.parse(JSON.stringify(this.data)), // 传入表格对象比对模型
+      tableDataChange: [] // 表格改变内容
     };
   },
   components: {
     glForm
   },
-  // filters: {
-  //   capitalize: function(value, content) {
-  //     let [data] = value;
-  //     data.$default = content;
-  //     return [data];
-  //   }
-  // },
   props: {
     data: Array,
     columns: Array,
@@ -67,6 +63,24 @@ export default {
     IsSummary() {
       return this.columns.some(el => el.IsSummary);
     }
+  },
+  watch: {
+    data: {
+      handler(newV) {
+        this.getChanges(newV);
+        console.log(newV);
+        this.tableDataclone = JSON.parse(JSON.stringify(newV));
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    // this.test = this.data;
+    let a = ["2", { i: "3", o: "4" }];
+    let b = JSON.parse(JSON.stringify(a));
+
+    b[1].i = "4";
+    console.log(a[1], b[1], a[1] == b[1], compare(b[1], a[1]));
   },
   methods: {
     cellclick(r, c) {
@@ -82,6 +96,12 @@ export default {
     endEdit() {
       this.currentRow = "";
       this.currentColumn = "";
+    },
+    // changCompareModule() {},
+    getChanges() {
+      this.tableDataclone;
+
+      // return data.map(el => Object.assign({}, el));
     }
   }
 };
