@@ -47,8 +47,7 @@ import formRender from "@/components/globalComponents/form-render";
 import {
   filterEmptyCommitData,
   createFormOptions,
-  createColumnsOptions,
-  isObject
+  createColumnsOptions
 } from "@/utils";
 import { procurementApi } from "@/api/procurement";
 import { getUiConfig } from "@/api/uiConfig";
@@ -110,7 +109,8 @@ export default {
           // console.log(res.data);
 
           Object.entries(res.data).forEach(el => {
-            if (isObject(el[1])) {
+            
+            if (Array.isArray(el[1])) {
               // 加载表体
               this.pageSetting.add.body.forEach(item => {
                 if (item.name === el[0]) item.tableData = el[1];

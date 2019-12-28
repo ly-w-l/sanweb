@@ -1,5 +1,5 @@
 <template>
-  <bill-query />
+  <bill-query billTitle="采购申请单" />
 </template>
 <script>
 import billQuery from "../../components/bill-query";

@@ -83,7 +83,7 @@ const state = {
             $el: { size: "mini", resize: "both", type: "datetime" }
           }
         ], // 查询条件
-        body: [{ FTableName: "t_Organization" }]
+        body: [{ FTableName: "POOrderEntry" }]
       },
       add: {
         header: { FTableName: "POOrder" },
@@ -132,7 +132,7 @@ const state = {
             $el: { size: "mini", resize: "both", type: "datetime" }
           }
         ], // 查询条件
-        body: [{ FTableName: "t_Organization" }]
+        body: [{ FTableName: "POInStockEntry" }]
       },
       add: {
         header: { FTableName: "POInStock" },
@@ -181,7 +181,7 @@ const state = {
             $el: { size: "mini", resize: "both", type: "datetime" }
           }
         ], // 查询条件
-        body: [{ FTableName: "t_Organization" }]
+        body: [{ FTableName: "ICInStockBillEntry" }]
       },
       add: {
         header: { FTableName: "ICInStockBill" },
@@ -230,7 +230,7 @@ const state = {
             $el: { size: "mini", resize: "both", type: "datetime" }
           }
         ], // 查询条件
-        body: [{ FTableName: "t_Organization" }]
+        body: [{ FTableName: "ICPurchaseEntry" }]
       },
       add: {
         header: { FTableName: "ICPurchase" },
@@ -243,6 +243,43 @@ const state = {
             columns: []
           }
         ]
+      }
+    },
+    {
+      billName: "price",
+      FID: "SupplyPrice",
+      query: {
+        formOptions: [
+          {
+            $type: "group",
+            $id: "FNumber",
+
+            $items: [
+              {
+                $id: "FNumber1",
+                $type: "input",
+                label: "客户代码",
+                $operator: ">=",
+                $el: { size: "mini" }
+              },
+              {
+                $id: "FNumber2",
+                $type: "input",
+                label: "至",
+                $operator: "<=",
+                $el: { size: "mini" }
+              }
+            ]
+          },
+          {
+            $type: "input",
+            $id: "FName",
+            label: "客户名称",
+            $operator: "=",
+            $el: { size: "mini", resize: "both", type: "datetime" }
+          }
+        ], // 查询条件
+        body: [{ FTableName: "t_SupplyPrice" }]
       }
     }
   ]
