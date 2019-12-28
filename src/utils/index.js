@@ -180,7 +180,8 @@ export function createFormOptions(data) {
 
 /**
  * 根据配置生成表格列头
- * @param {Array} data
+ * @param {Array} data 请求到的配置数据
+ * @param {Boolean} needInnerInput 是否可编辑表格
  * @returns {Array} 列头配置
  */
 export function createColumnsOptions(data, needInnerInput) {
@@ -207,11 +208,11 @@ export function createColumnsOptions(data, needInnerInput) {
     });
 }
 
-export function compare(obj1, obj2) {
-  let result = true;
-  let obj2Array = Object.entries(obj2);
-  Object.entries(obj1).forEach((el, index) => {
-    if (el[1] !== obj2Array[index][1]) result = false;
-  });
-  return result;
-}
+// export function compare(obj1, obj2) {
+//   let result = true;
+//   let obj2Array = Object.entries(obj2);
+//   Object.entries(obj1).forEach((el, index) => {
+//     if (el[1] !== obj2Array[index][1]) result = false;
+//   });
+//   return result;
+// }

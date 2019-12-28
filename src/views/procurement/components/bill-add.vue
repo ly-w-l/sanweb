@@ -86,7 +86,7 @@ export default {
     }
   },
   props: {
-    fInterID: {
+    FInterID: {
       type: Number,
       default: 0
     }
@@ -103,10 +103,10 @@ export default {
       await this.tableHandler();
       this.comfirmStatus();
     },
-    // 根据传入的fInterID请求数据
+    // 根据传入的FInterID请求数据
     comfirmStatus() {
-      if (this.fInterID) {
-        this.api.Get({ fInterID: this.fInterID }).then(res => {
+      if (this.FInterID) {
+        this.api.Get({ fInterID: this.FInterID }).then(res => {
           // console.log(res.data);
 
           Object.entries(res.data).forEach(el => {
@@ -163,6 +163,9 @@ export default {
     },
     add() {
       this.$refs.glform.resetFields();
+      this.pageSetting.add.body.forEach(el => {
+        el.tableData = [];
+      });
       this.billStatus = process.env.VUE_APP_ADD;
     },
     edit() {
@@ -183,7 +186,17 @@ export default {
           );
           // 收集子表
           let childDatas = Object.fromEntries(
-            this.pageSetting.add.body.map(el => {
+            this.pageSetting.add.body.map((el, index) => {
+              el.tableData.forEach(item => {
+                if (!item.hasOwnProperty("EntryState")) {
+                  item.EntryState = 2; // 给后台传增删改标识 2修改 ，这里只能给所有不是新增和删除的加修改标识
+                }
+              });
+
+              if (this.billStatus === process.env.VUE_APP_EDIT) {
+                let deleteRows = this.$refs.gltable[index].getDeleteRows();
+                return [el.name, el.tableData.concat(deleteRows)];
+              }
               return [el.name, el.tableData];
             })
           );
@@ -208,8 +221,11 @@ export default {
           el => el[1]
         )
       ) {
+        this.$refs.gltable.forEach(el => {
+          el.endEdit();
+        });
         let newRow = Object.fromEntries(tab.columns.map(el => [el.prop, ""]));
-        // if (this.billStatus === process.env.VUE_APP_EDIT) newRow.EntryState = 1; // 给后台传增删改标识 1新增
+        if (this.billStatus === process.env.VUE_APP_EDIT) newRow.EntryState = 1; // 给后台传增删改标识 1新增
         tab.tableData.push(newRow);
       }
     },
@@ -217,8 +233,17 @@ export default {
       let tab = this.pageSetting.add.body.find(
         el => el.name === this.currentTab
       );
+      if (!this.currentRow) {
+        this.$message({
+          showClose: true,
+          message: "请选择一条数据",
+          type: "warning"
+        });
+        return;
+      }
       if (tab.tableData.length !== 0) {
-        tab.tableData.pop();
+        let index = tab.tableData.indexOf(this.currentRow);
+        tab.tableData.splice(index, 1);
       }
     },
     tabClick(tab) {

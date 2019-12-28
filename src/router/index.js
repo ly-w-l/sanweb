@@ -137,6 +137,114 @@ export const constantRoutes = [
                 meta: { title: "采购申请-查询", icon: "form" }
               }
             ]
+          },
+          {
+            path: "procurementOrder",
+            name: "procurementOrder",
+            component: () =>
+              import("@/views/procurement/bills/procurement-order/index.vue"),
+            meta: { title: "采购订货", icon: "form" },
+            children: [
+              {
+                path: "procurementOrder-add",
+                name: "procurementOrder-add",
+                component: () =>
+                  import("@/views/procurement/bills/procurement-order/add.vue"),
+                meta: { title: "采购订单-新增", icon: "form" }
+              },
+              {
+                path: "procurementOrder-query",
+                name: "procurementOrder-query",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-order/query.vue"
+                  ),
+                meta: { title: "采购订单-查询", icon: "form" }
+              }
+            ]
+          },
+          {
+            path: "procurementArrival",
+            name: "procurementArrival",
+            component: () =>
+              import("@/views/procurement/bills/procurement-arrival/index.vue"),
+            meta: { title: "采购到货", icon: "form" },
+            children: [
+              {
+                path: "procurementArrival-add",
+                name: "procurementArrival-add",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-arrival/add.vue"
+                  ),
+                meta: { title: "到货单-新增", icon: "form" }
+              },
+              {
+                path: "procurementArrival-query",
+                name: "procurementArrival-query",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-arrival/query.vue"
+                  ),
+                meta: { title: "到货单-查询", icon: "form" }
+              }
+            ]
+          },
+          {
+            path: "procurementOutStock",
+            name: "procurementOutStock",
+            component: () =>
+              import(
+                "@/views/procurement/bills/procurement-out-stock/index.vue"
+              ),
+            meta: { title: "采购退货", icon: "form" },
+            children: [
+              {
+                path: "procurementOutStock-add",
+                name: "procurementOutStock-add",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-out-stock/add.vue"
+                  ),
+                meta: { title: "退货单-新增", icon: "form" }
+              },
+              {
+                path: "procurementOutStock-query",
+                name: "procurementOutStock-query",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-out-stock/query.vue"
+                  ),
+                meta: { title: "退货单-查询", icon: "form" }
+              }
+            ]
+          },
+          {
+            path: "procurementInvoice",
+            name: "procurementInvoice",
+            component: () =>
+              import("@/views/procurement/bills/procurement-invoice/index.vue"),
+            meta: { title: "采购开票", icon: "form" },
+            children: [
+              {
+                path: "procurementInvoice-add",
+                name: "procurementInvoice-add",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-invoice/add.vue"
+                  ),
+                meta: { title: "采购发票-新增", icon: "form" }
+              },
+              {
+                path: "procurementInvoice-query",
+                name: "procurementInvoice-query",
+                component: () =>
+                  import(
+                    "@/views/procurement/bills/procurement-invoice/query.vue"
+                  ),
+                meta: { title: "采购发票-查询", icon: "form" }
+              }
+            ]
           }
         ]
       },
